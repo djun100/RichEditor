@@ -1,0 +1,44 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion COMPILE_SDK_VERSION as int
+  buildToolsVersion BUILD_TOOLS_VERSION
+
+  defaultConfig {
+    minSdkVersion MIN_SDK_VERSION as int
+    targetSdkVersion TARGET_SDK_VERSION as int
+    versionCode VERSION_CODE as int
+    versionName VERSION_NAME
+  }
+}
+
+repositories{
+  flatDir{
+    dirs 'libs'
+  }
+}
+
+dependencies {
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+//  compile (name:'xwalk_core_library_20.50.533.12-arm',ext:'aar')
+//  compile (name:'crosswalk-23.52.568.0',ext:'aar')
+  compile project(':crosswalk-webview-23.52.568.0-arm')
+}
+
+task buildJar(dependsOn: ['compileReleaseJavaWithJavac'], type: Jar) {
+
+  appendix = "demo"
+  baseName = "androidJar"
+  version = "1.0.0"
+  classifier = "release"
+  extension = "jar"
+  //最终的 Jar 包名，如果没设置，默认为 [baseName]-[appendix]-[version]-[classifier].[extension]
+  archiveName = "rich_editor.jar"
+
+  //需打包的资源所在的路径集
+  def srcClassDir = [project.buildDir.absolutePath + "/intermediates/classes/release"];
+  //初始化资源路径集
+  from srcClassDir
+  exclude "**/R.class"
+  exclude "**/BuildConfig.class"
+}

@@ -1,0 +1,27 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion COMPILE_SDK_VERSION as int
+  buildToolsVersion BUILD_TOOLS_VERSION
+
+  defaultConfig {
+    minSdkVersion MIN_SDK_VERSION as int
+    targetSdkVersion TARGET_SDK_VERSION as int
+    versionCode VERSION_CODE as int
+    versionName VERSION_NAME
+  }
+
+
+
+}
+
+repositories{
+  flatDir {
+    dirs project(':richeditor').file('libs')
+  }
+}
+
+dependencies {
+  compile project(':richeditor')
+  compile "com.android.support:appcompat-v7:${SUPPORT_PACKAGE_VERSION}"
+}
